@@ -1,0 +1,43 @@
+<div class="list row">
+  <div class="col-md-8">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Tìm kiếm theo tên học sinh "
+        [(ngModel)]="lophoc"
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="searchName()"
+        >
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4>Danh sách học sinh </h4>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        *ngFor="let student of students; let i = index"
+        [class.active]="i == currentIndex"
+        (click)="setActiveStudent(student, i)"
+      >
+        {{ student.lophoc }}
+      </li>
+    </ul>
+    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllStudents()">
+      Xóa tất cả
+    </button>
+  </div>
+  <div class="col-md-6">
+    <app-student-details
+      [viewMode]="true"
+      [currentStudent]="currentStudent"
+    ></app-student-details>
+  </div>
+</div>

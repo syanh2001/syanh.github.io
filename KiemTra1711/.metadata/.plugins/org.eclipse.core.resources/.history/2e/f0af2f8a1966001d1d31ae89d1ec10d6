@@ -1,0 +1,139 @@
+package crud.server.controller;
+
+import crud.server.model.HocSinh;
+
+import crud.server.repository.HocSinhRepository;
+import java.util.ArrayList;
+import java.util.List;
+import net.bytebuddy.dynamic.DynamicType.Builder.FieldDefinition.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@SuppressWarnings("unused")
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api")
+public class HocSinhController {
+
+  @Autowired
+  HocSinhRepository studentRepository;
+
+  @GetMapping("/students")
+  public ResponseEntity<List<HocSinh>> getAllHocsinhs(
+		    @RequestParam(required = false) String lophoc
+		  ) {
+		    try {
+		      List<HocSinh> hocsinhs = new ArrayList<HocSinh>();
+		      if (lophoc == null) studentRepository
+		        .findAll()
+		        .forEach(hocsinhs::add); 
+		      else studentRepository
+		        .findByLophocContaining(lophoc)
+		        .forEach(hocsinhs::add);
+		      if (hocsinhs.isEmpty()) {
+		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		      }
+		      return new ResponseEntity<>(hocsinhs, HttpStatus.OK);
+		    } catch (Exception e) {
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+
+		  @GetMapping("/students/{mahs_hoanganh}")
+		  public ResponseEntity<HocSinh> getHocsinhById(@PathVariable("mahs_hoanganh") long mahs_hoanganh) {
+		    java.util.Optional<HocSinh> studentData = studentRepository.findById(mahs_hoanganh);
+		    if (studentData.isPresent()) {
+		      return new ResponseEntity<>(studentData.get(), HttpStatus.OK);
+		    } else {
+		      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		    }
+		  }
+
+		  @PostMapping("/students")
+		  public ResponseEntity<HocSinh> createStudent(
+		    @RequestBody HocSinh student
+		  ) {
+		    try {
+		    	HocSinh _student = studentRepository.save(
+		        new HocSinh(
+		        		student.getLophoc(),
+		        		student.getQuequan(),
+		        		student.getDiemtoan(),
+		        		student.getDiemvan(),
+		        		student.getNgayvaotruong()
+		        		)
+		      );
+		      return new ResponseEntity<>(_student, HttpStatus.CREATED);
+		    } catch (Exception e) {
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+
+		  @PutMapping("/students/{mahs_hoanganh}")
+		  public ResponseEntity<HocSinh> updateStudent(
+		    @PathVariable("mahs_hoanganh") long mahs_hoanganh,
+		    @RequestBody HocSinh student
+		  ) {
+		    java.util.Optional<HocSinh> studentData = studentRepository.findById(mahs_hoanganh);
+		    if (studentData.isPresent()) {
+		    	HocSinh _student = studentData.get();
+		    	_student.setLophoc(student.getLophoc());
+		    	_student.setQuequan(student.getQuequan());
+		    	_student.setDiemtoan(student.getDiemtoan());
+		    	_student.setDiemvan(student.getDiemvan());
+		    	_student.setNgayvaotruong(student.getNgayvaotruong());
+		      return new ResponseEntity<>(
+		    		  studentRepository.save(_student),
+		        HttpStatus.OK
+		      );
+		    } else {
+		      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		    }
+		  }
+
+		  @DeleteMapping("/students/{mahs_hoanganh}")
+		  public ResponseEntity<HttpStatus> deleteStudent(
+		    @PathVariable("mahs_hoanganh") long mahs_hoanganh
+		  ) {
+		    try {
+		      studentRepository.deleteById(mahs_hoanganh);
+		      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		    } catch (Exception e) {
+		      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+
+		  @DeleteMapping("/students")
+		  public ResponseEntity<HttpStatus> deleteAllStudents() {
+		    try {
+		    	studentRepository.deleteAll();
+		      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		    } catch (Exception e) {
+		      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+
+		  @GetMapping("/students/published")
+		  public ResponseEntity<List<HocSinh>> findByDadonghocphi() {
+		    try {
+		      List<HocSinh> students = studentRepository.findByDadonghocphi(false);
+		      if (students.isEmpty()) {
+		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		      }
+		      return new ResponseEntity<>(students, HttpStatus.OK);
+		    } catch (Exception e) {
+		      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		    }
+		  }
+		}

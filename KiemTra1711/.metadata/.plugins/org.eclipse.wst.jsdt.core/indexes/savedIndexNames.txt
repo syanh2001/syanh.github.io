@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+C:\Users\ADMIN\OneDrive\Máy tính\KiemTra1711\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3891955296.index
+1141165060.index
+3029304495.index
+566767696.index
+2504739358.index

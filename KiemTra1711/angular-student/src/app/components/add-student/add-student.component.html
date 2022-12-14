@@ -1,0 +1,67 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Lớp học</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lophoc"
+          required
+          [(ngModel)]="student.lophoc"
+          name="lophoc"
+        />
+      </div>
+      <div class="form-group">
+        <label for="faculty">Điểm toán</label>
+        <input
+          type="text"
+          class="form-control"
+          id="faculty"
+          required
+          [(ngModel)]="student.diemtoan"
+          name="diemtoan"
+        />
+      </div>
+      <div class="form-group">
+        <label for="faculty">Điểm văn</label>
+        <input
+          type="text"
+          class="form-control"
+          id="faculty"
+          required
+          [(ngModel)]="student.diemvan"
+          name="diemvan"
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Quê quán</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          required
+          [(ngModel)]="student.quequan"
+          name="quequan"
+        />
+        <div class="form-group">
+          <label for="email">Ngày vào trường</label>
+          <input
+            type="datetime"
+            class="form-control"
+            id="email"
+            required
+            [(ngModel)]="student.ngayvaotruong"
+            name="ngayvaotruong"
+          />
+      </div>
+      <button (click)="saveStudent()" class="btn btn-success">Submit</button>
+    </div>
+    <div *ngIf="submitted">
+      <h4>Student was submitted successfully!</h4>
+      <br/>
+      <button (click)="newStudent()" class="btn btn-success" >Add</button>
+    </div>
+    
+  </div>
+</div>

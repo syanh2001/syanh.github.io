@@ -1,0 +1,108 @@
+package crud.server.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "sinhvien")
+public class Student {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long msv_hoanganh;
+	@Column(name = "tensv")
+	private String tensv;
+	@Column(name = "tenlop")
+	private String tenlop;
+	@Column(name = "diem")
+	private float diem;
+	@Column(name = "dadonghocphi")
+	private boolean dadonghocphi;
+	
+	public Student() {
+		
+	}
+	
+
+	public Student(String tensv, float diem, boolean dadonghocphi, String tenlop) {
+		this.tensv = tensv;
+		this.tenlop = tenlop;
+		this.diem = diem;
+		this.dadonghocphi = dadonghocphi;
+	}
+
+	public long getMsv_hoanganh() {
+		return msv_hoanganh;
+	}
+
+
+
+	public void setMsv_hoanganh(long msv_hoanganh) {
+		this.msv_hoanganh = msv_hoanganh;
+	}
+
+
+
+	public String getTensv() {
+		return tensv;
+	}
+
+
+
+	public void setTensv(String tensv) {
+		this.tensv = tensv;
+	}
+
+
+
+	public String getTenlop() {
+		return tenlop;
+	}
+
+
+
+	public void setTenlop(String tenlop) {
+		this.tenlop = tenlop;
+	}
+
+
+
+	public float getDiem() {
+		return diem;
+	}
+
+
+
+	public void setDiem(float diem) {
+		this.diem = diem;
+	}
+
+
+
+	public boolean isDadonghocphi() {
+		return dadonghocphi;
+	}
+
+
+
+	public void setDadonghocphi(boolean dadonghocphi) {
+		this.dadonghocphi = dadonghocphi;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Student [msv_hoanganh=" + msv_hoanganh + ", tensv=" + tensv + ", tenlop=" + tenlop + ", diem=" + diem
+				+ ", dadonghocphi=" + dadonghocphi + "]";
+	}
+
+
+	
+
+	
+
+}
+
